@@ -18,6 +18,16 @@
     </script>
   </head>
   <body>
+    <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/5GUaMOpfmr8?si=Wdeawd4IWjqoofgy"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+    ></iframe>
     <table id="vocabTable">
       <thead>
         <tr>
@@ -49,8 +59,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
       let currentIndex = 0; // Keeps track of the current index of the CSV data
-      let selectedItems =
-        JSON.parse(localStorage.getItem("selectedItems")) || {}; // Stores selected items across pages
+      let selectedItemsLyricLyric =
+        JSON.parse(localStorage.getItem("selectedItemsLyric")) || {}; // Stores selected items across pages
       let isStudyMode = false; // Tracks if we're in study mode
       let showRomaji = true; // Flag to control whether Romaji is shown
       let showKana = true; // Flag to control whether Kana is shown
@@ -71,7 +81,7 @@
               currentIndex,
               currentIndex + 100
             );
-            const dataToDisplayForStudy = Object.keys(selectedItems).map(
+            const dataToDisplayForStudy = Object.keys(selectedItemsLyric).map(
               (id) => parsedData[id]
             );
 
@@ -95,7 +105,7 @@
 
               const entryId = currentIndex + index;
 
-              if (!isStudyMode && selectedItems[entryId]) {
+              if (!isStudyMode && selectedItemsLyric[entryId]) {
                 td.classList.add("selected");
               }
 
@@ -103,14 +113,14 @@
                 if (!isStudyMode) {
                   td.classList.toggle("selected");
                   if (td.classList.contains("selected")) {
-                    selectedItems[entryId] = entry;
+                    selectedItemsLyric[entryId] = entry;
                   } else {
-                    delete selectedItems[entryId];
+                    delete selectedItemsLyric[entryId];
                   }
 
                   localStorage.setItem(
-                    "selectedItems",
-                    JSON.stringify(selectedItems)
+                    "selectedItemsLyric",
+                    JSON.stringify(selectedItemsLyric)
                   );
                 }
               });
@@ -158,8 +168,8 @@
           document
             .getElementById("resetButton")
             .addEventListener("click", () => {
-              localStorage.removeItem("selectedItems");
-              selectedItems = {};
+              localStorage.removeItem("selectedItemsLyric");
+              selectedItemsLyric = {};
               renderTable();
             });
 
